@@ -1,0 +1,15 @@
+{
+    "model": {
+        "type": "stack_rnn",
+        "input_size": 256,
+        "hidden_size": 256,
+        "num_layers": 1,
+        "bias": true,
+        "dropout": 0.0,
+        "batch_first": true,
+        "stack_cell_size": 8,
+        "stack_size": 150,
+        "n_stacks": 1
+    },
+    "optimizer": "torch::SGD"
+}

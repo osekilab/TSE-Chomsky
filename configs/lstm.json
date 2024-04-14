@@ -1,0 +1,10 @@
+{
+    "model": {
+        "type": "lstm",
+        "input_size": 256,
+        "hidden_size": 256,
+        "num_layers": 2,
+        "bidirectional": false
+    },
+    "optimizer": "torch::SGD"
+}

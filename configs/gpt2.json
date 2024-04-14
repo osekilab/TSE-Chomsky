@@ -1,0 +1,14 @@
+{
+    "model": {
+        "type": "pytorch_transformer_encoder",
+        "input_dim": 128,
+        "num_layers": 5,
+        "feedforward_hidden_dim": 512,
+        "num_attention_heads": 4,
+        "positional_encoding": "sinusoidal",
+        "dropout_prob": 0.1,
+        "activation": "relu",
+        "auto_regressive": true
+    },
+    "optimizer": "torch::AdamW"
+}
