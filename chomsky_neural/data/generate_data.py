@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Tuple, Union
+from typing import List, Tuple
 
 import numpy as np
 from chomsky_neural.data.tasks import (
@@ -12,10 +12,10 @@ from chomsky_neural.data.utils import (
     create_samples,
     generate_vocab_file,
     get_unique_list,
+    sample_from_list,
 )
 from chomsky_neural.env import PACKAGE_DIR
 from chomsky_neural.file_utils import save_as_jsonlines
-from chomsky_neural.data.utils import sample_from_list
 from sklearn.model_selection import train_test_split
 
 np.random.seed(42)

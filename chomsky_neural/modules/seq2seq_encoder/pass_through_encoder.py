@@ -1,7 +1,5 @@
 import torch
-
-from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import \
-    Seq2SeqEncoder
+from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import Seq2SeqEncoder
 
 
 @Seq2SeqEncoder.register("pass_through")

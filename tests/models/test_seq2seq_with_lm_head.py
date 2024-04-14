@@ -1,11 +1,11 @@
+import torch
 from chomsky_neural.data.instance import PairBatch
 from chomsky_neural.models.seq2seq_with_lm_head import Seq2SeqWithLMHead
-from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import \
-    Seq2SeqEncoder
+from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import Seq2SeqEncoder
 from chomsky_neural.modules.token_embedder.token_embedder import TokenEmbedder
-import torch
 from chomsky_neural.torch.optimizer import Optimizer
 from tango.common import Lazy
+
 
 def test_seq2seq_with_lm_head():
     token_embedder = TokenEmbedder.from_params(
@@ -57,5 +57,5 @@ def test_seq2seq_with_lm_head():
     outputs = model.calculate_likelihood_for_pair_batch(pair_batch)
     assert len(outputs) == 3
     for output in outputs:
-        assert len(output['good_likelihood']) == 5
-        assert len(output['bad_likelihood']) == 5
+        assert len(output["good_likelihood"]) == 5
+        assert len(output["bad_likelihood"]) == 5

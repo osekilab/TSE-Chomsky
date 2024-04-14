@@ -1,13 +1,10 @@
-from typing import Dict, Iterator, List, Optional, cast
+from typing import List, Optional, cast
 
 import pytorch_lightning as pl
 import torch
-
-from chomsky_neural.data.instance import PairBatch, PairInstance, Pair
+from chomsky_neural.data.instance import Pair, PairBatch, PairInstance
 from chomsky_neural.data.source import ChomskyPairDataSource
-from chomsky_neural.data.vocabulary import (BOS_TOKEN, EOS_TOKEN,
-                                            LABEL_PAD_INDEX, PAD_TOKEN,
-                                            UNK_TOKEN, Vocabulary)
+from chomsky_neural.data.vocabulary import BOS_TOKEN, EOS_TOKEN, PAD_TOKEN, Vocabulary
 
 
 class ChomskyPairDataset(torch.utils.data.Dataset[PairInstance]):
@@ -43,7 +40,9 @@ class ChomskyPairDatamodule(pl.LightningDataModule):
     def prepare_data(self) -> None:
         ...
 
-    def _setup_dataset(self, dataset: ChomskyPairDataset, data_source: ChomskyPairDataSource) -> None:
+    def _setup_dataset(
+        self, dataset: ChomskyPairDataset, data_source: ChomskyPairDataSource
+    ) -> None:
         for pair in data_source.collect():
             pair_instance = self._prepare_pair(pair)
             dataset.add(pair_instance)
@@ -85,8 +84,12 @@ class ChomskyPairDatamodule(pl.LightningDataModule):
         )
 
     def batch_collator(self, instances: List[PairInstance]) -> PairBatch:
-        max_length_pos = max(len(pair_instance.inputs_pos) for pair_instance in instances)
-        max_length_neg = max(len(pair_instance.inputs_neg) for pair_instance in instances)
+        max_length_pos = max(
+            len(pair_instance.inputs_pos) for pair_instance in instances
+        )
+        max_length_neg = max(
+            len(pair_instance.inputs_neg) for pair_instance in instances
+        )
         inputs_pos = cast(
             torch.LongTensor,
             torch.full(

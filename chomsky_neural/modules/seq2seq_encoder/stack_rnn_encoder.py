@@ -1,11 +1,6 @@
-from typing import Tuple
-
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-
-from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import \
-    Seq2SeqEncoder
+from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import Seq2SeqEncoder
 from chomsky_neural.modules.stack_rnn import StackRNN, StackRnnState
 
 
@@ -80,6 +75,8 @@ class StackRNNSeq2SeqEncoder(Seq2SeqEncoder):
             outputs.append(output)
 
         # Concatenate the outputs into a tensor
-        outputs = torch.stack(outputs, dim=1).squeeze(2) # (batch_size, sequence_length, hidden_size)
+        outputs = torch.stack(outputs, dim=1).squeeze(
+            2
+        )  # (batch_size, sequence_length, hidden_size)
 
         return outputs

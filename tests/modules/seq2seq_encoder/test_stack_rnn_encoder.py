@@ -1,7 +1,7 @@
 import torch
-
-from chomsky_neural.modules.seq2seq_encoder.stack_rnn_encoder import \
-    StackRNNSeq2SeqEncoder
+from chomsky_neural.modules.seq2seq_encoder.stack_rnn_encoder import (
+    StackRNNSeq2SeqEncoder,
+)
 
 
 def test_stack_rnn_seq2seq_encoder():

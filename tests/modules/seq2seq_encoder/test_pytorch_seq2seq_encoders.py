@@ -1,7 +1,9 @@
 import torch
-
 from chomsky_neural.modules.seq2seq_encoder.pytorch_seq2seq_wrapper import (
-    GruSeq2SeqEncoder, LstmSeq2SeqEncoder, RnnSeq2SeqEncoder)
+    GruSeq2SeqEncoder,
+    LstmSeq2SeqEncoder,
+    RnnSeq2SeqEncoder,
+)
 
 
 def test_gru_seq2seq_encoder():

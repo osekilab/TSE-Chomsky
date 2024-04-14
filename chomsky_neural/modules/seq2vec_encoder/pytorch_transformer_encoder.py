@@ -115,7 +115,9 @@ class PytorchTransformerSeq2VecEncoder(Seq2VecEncoder):
             else None
         )
         if self._auto_regressive:
-            output = self._transformer(output, mask=src_mask, src_key_padding_mask=mask, is_causal=True)
+            output = self._transformer(
+                output, mask=src_mask, src_key_padding_mask=mask, is_causal=True
+            )
         else:
             output = self._transformer(output, src_key_padding_mask=mask)
         output = output.permute(1, 0, 2)

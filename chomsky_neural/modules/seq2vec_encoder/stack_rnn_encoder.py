@@ -1,8 +1,5 @@
-from typing import Tuple
-
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from chomsky_neural.modules.seq2vec_encoder.seq2vec_encoder import Seq2VecEncoder
 from chomsky_neural.modules.stack_rnn import StackRNN, StackRnnState
 

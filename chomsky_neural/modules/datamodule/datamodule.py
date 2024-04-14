@@ -1,4 +1,4 @@
-from typing import Dict, Iterator, List, Optional, cast
+from typing import Iterator, List, Optional, cast
 
 import pytorch_lightning as pl
 import torch
