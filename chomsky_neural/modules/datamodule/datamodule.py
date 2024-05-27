@@ -1,4 +1,4 @@
-from typing import Dict, Iterator, List, Optional, cast
+from typing import Iterator, List, Optional, cast
 
 import pytorch_lightning as pl
 import torch
@@ -50,8 +50,7 @@ class ChomskyDatamodule(pl.LightningDataModule):
         self.vocab = vocab or Vocabulary()
         self.prepare_data_per_node = True
 
-    def prepare_data(self) -> None:
-        ...
+    def prepare_data(self) -> None: ...
 
     def _setup_dataset(self, dataset: ChomskyDataset, data_source: DataSource) -> None:
         for sentence in data_source.collect():

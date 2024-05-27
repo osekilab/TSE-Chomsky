@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, List, Union, cast
+from typing import Any, Dict, List, Union
 
 import numpy as np
 from chomsky_neural.file_utils import save_as_jsonlines

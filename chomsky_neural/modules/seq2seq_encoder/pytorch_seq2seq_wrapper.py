@@ -1,10 +1,8 @@
 from typing import cast
 
 import torch
+from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import Seq2SeqEncoder
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
-
-from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import \
-    Seq2SeqEncoder
 
 
 class PytorchSeq2SeqWrapper(Seq2SeqEncoder):

@@ -1,15 +1,13 @@
-from typing import Dict, Optional, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
+from chomsky_neural.data.instance import Batch, PairBatch
+from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import Seq2SeqEncoder
+from chomsky_neural.modules.token_embedder.token_embedder import TokenEmbedder
 from tango.common import Lazy
 from tango.integrations.torch import LRScheduler, Optimizer
-
-from chomsky_neural.data.instance import Batch, PairBatch
-from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import \
-    Seq2SeqEncoder
-from chomsky_neural.modules.token_embedder.token_embedder import TokenEmbedder
 
 
 class Seq2SeqWithLMHead(pl.LightningModule):
@@ -34,8 +32,7 @@ class Seq2SeqWithLMHead(pl.LightningModule):
             self.vocab_size,
         )
         assert (
-            self.token_embedder.get_output_dim()
-            == self.seq2seq_encoder.get_input_dim()
+            self.token_embedder.get_output_dim() == self.seq2seq_encoder.get_input_dim()
         )
 
     def forward(
@@ -158,7 +155,9 @@ class Seq2SeqWithLMHead(pl.LightningModule):
 
         for i in range(probs_for_targets.shape[0]):
             instance_output = probs_for_targets[i, mask_[i]].tolist()
-            instance_output = [-1.0] + instance_output  # add -1.0 for the first [EOS] token
+            instance_output = [
+                -1.0
+            ] + instance_output  # add -1.0 for the first [EOS] token
             assert len(instance_output) == mask[i].sum().item()
             output_list.append(instance_output)
         return output_list
@@ -183,7 +182,9 @@ class Seq2SeqWithLMHead(pl.LightningModule):
             )
         return output_list
 
-    def configure_optimizers(self) -> Optimizer | Tuple[List[Optimizer], List[LRScheduler]]:
+    def configure_optimizers(
+        self,
+    ) -> Optimizer | Tuple[List[Optimizer], List[LRScheduler]]:
         if self.scheduler:
             return [self.optimizer], [self.scheduler]
         else:

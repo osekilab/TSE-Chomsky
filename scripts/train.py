@@ -2,23 +2,23 @@ import argparse
 from pathlib import Path
 from typing import Any, Dict, List, Union
 
+import numpy as np
 import pytorch_lightning as pl
 import torch
-from lightning_lite.utilities.seed import seed_everything
-from tango.common import Lazy
-from tango.integrations.torch import Optimizer
-from tqdm import tqdm
-import numpy as np
 from chomsky_neural.data.source import ChomskyDataSource, ChomskyPairDataSource
 from chomsky_neural.data.vocabulary import PAD_TOKEN
 from chomsky_neural.env import DATA_DIR, OUTPUT_DIR, PACKAGE_DIR
-from chomsky_neural.file_utils import (load_json, load_jsonlines,
-                                       save_as_jsonlines)
+from chomsky_neural.file_utils import load_json, load_jsonlines, save_as_jsonlines
 from chomsky_neural.models.seq2seq_with_lm_head import Seq2SeqWithLMHead
 from chomsky_neural.modules.datamodule.datamodule import ChomskyDatamodule
 from chomsky_neural.modules.datamodule.pair_datamodule import ChomskyPairDatamodule
 from chomsky_neural.modules.seq2seq_encoder import Seq2SeqEncoder
 from chomsky_neural.modules.token_embedder.token_embedder import TokenEmbedder
+from lightning_lite.utilities.seed import seed_everything
+from tango.common import Lazy
+from tango.integrations.torch import Optimizer
+from tqdm import tqdm
+
 
 def append_likelihood_to_data(
     data_path: Union[Path, str], output_path: Union[Path, str], predictions: list
@@ -27,14 +27,23 @@ def append_likelihood_to_data(
     for i, datum in enumerate(data):
         datum["good_likelihood"] = predictions[i]["good_likelihood"]
         datum["bad_likelihood"] = predictions[i]["bad_likelihood"]
-        datum['good_loglik'] = np.where(np.isnan(np.log(predictions[i]["good_likelihood"])), -np.inf, np.log(predictions[i]["good_likelihood"])).tolist()
-        datum['bad_loglik'] = np.where(np.isnan(np.log(predictions[i]["bad_likelihood"])), -np.inf, np.log(predictions[i]["bad_likelihood"])).tolist()
-        datum['good_avg_likelihood'] = np.mean(datum['good_likelihood'][1:])
-        datum['bad_avg_likelihood'] = np.mean(datum['bad_likelihood'][1:])
-        datum['good_avg_loglik'] = np.mean(datum['good_loglik'][1:])
-        datum['bad_avg_loglik'] = np.mean(datum['bad_loglik'][1:])
+        datum["good_loglik"] = np.where(
+            np.isnan(np.log(predictions[i]["good_likelihood"])),
+            -np.inf,
+            np.log(predictions[i]["good_likelihood"]),
+        ).tolist()
+        datum["bad_loglik"] = np.where(
+            np.isnan(np.log(predictions[i]["bad_likelihood"])),
+            -np.inf,
+            np.log(predictions[i]["bad_likelihood"]),
+        ).tolist()
+        datum["good_avg_likelihood"] = np.mean(datum["good_likelihood"][1:])
+        datum["bad_avg_likelihood"] = np.mean(datum["bad_likelihood"][1:])
+        datum["good_avg_loglik"] = np.mean(datum["good_loglik"][1:])
+        datum["bad_avg_loglik"] = np.mean(datum["bad_loglik"][1:])
     save_as_jsonlines(data, output_path)
     return data
+
 
 def model_type2name(model_config: Dict[str, Any]) -> str:
     model_type = model_config["type"]
@@ -217,11 +226,19 @@ if __name__ == "__main__":
         dataname = f"{args.task}_{args.num_terms}terms_{args.num_of_nonterms}nonterms_{args.min_iter}_{args.max_iter}_{args.max_iter_test}_{'erase-dup' if args.erase_duplicated_data else 'keep-dup'}_{args.dist}"
     else:
         dataname = f"{args.task}_{args.num_terms}terms_{args.min_iter}_{args.max_iter}_{args.max_iter_test}_{'erase-dup' if args.erase_duplicated_data else 'keep-dup'}_{args.dist}"
-    train_datasource = ChomskyDataSource(dataname=dataname, subset="train", correct_only=True)
-    validation_datasource = ChomskyDataSource(dataname=dataname, subset="validation", correct_only=True)
-    test_datasource = ChomskyDataSource(dataname=dataname, subset="test", correct_only=True)
+    train_datasource = ChomskyDataSource(
+        dataname=dataname, subset="train", correct_only=True
+    )
+    validation_datasource = ChomskyDataSource(
+        dataname=dataname, subset="validation", correct_only=True
+    )
+    test_datasource = ChomskyDataSource(
+        dataname=dataname, subset="test", correct_only=True
+    )
     test_pair_datasource = ChomskyPairDataSource(dataname=dataname, subset="test_pair")
-    ood_pair_datasource = ChomskyPairDataSource(dataname=dataname, subset="out_of_dist_test_pair")
+    ood_pair_datasource = ChomskyPairDataSource(
+        dataname=dataname, subset="out_of_dist_test_pair"
+    )
     datamodule = ChomskyDatamodule(
         train_datasource=train_datasource,
         val_datasource=validation_datasource,
@@ -248,7 +265,7 @@ if __name__ == "__main__":
         token_embedder=token_embedder,
         seq2seq_encoder=seq2seq_encoder,
         vocab_size=datamodule.vocab.size("tokens"),
-        optimizer=optimizer
+        optimizer=optimizer,
     )
     output_dir = (
         OUTPUT_DIR
@@ -297,9 +314,13 @@ if __name__ == "__main__":
     )
     test_predictions = []
     ood_predictions = []
-    for pair_batch in tqdm(test_pair_dataloader, desc="test", total=len(test_pair_dataloader)):
+    for pair_batch in tqdm(
+        test_pair_dataloader, desc="test", total=len(test_pair_dataloader)
+    ):
         test_predictions.extend(model.calculate_likelihood_for_pair_batch(pair_batch))
-    for pair_batch in tqdm(ood_pair_dataloader, desc="ood", total=len(ood_pair_dataloader)):
+    for pair_batch in tqdm(
+        ood_pair_dataloader, desc="ood", total=len(ood_pair_dataloader)
+    ):
         ood_predictions.extend(model.calculate_likelihood_for_pair_batch(pair_batch))
 
     # save prediction

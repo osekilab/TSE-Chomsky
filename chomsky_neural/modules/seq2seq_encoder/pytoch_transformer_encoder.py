@@ -2,9 +2,7 @@ from typing import Optional, Union
 
 import torch
 import torch.nn as nn
-
-from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import \
-    Seq2SeqEncoder
+from chomsky_neural.modules.seq2seq_encoder.seq2seq_encoder import Seq2SeqEncoder
 from chomsky_neural.torch.util import add_positional_features
 
 

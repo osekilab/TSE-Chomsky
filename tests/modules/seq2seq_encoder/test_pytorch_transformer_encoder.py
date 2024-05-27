@@ -1,5 +1,4 @@
 import torch
-
 from chomsky_neural.modules.seq2seq_encoder import PytorchTransformerEncoder
 
 
@@ -18,8 +17,6 @@ def test_pytorch_transformer_encoder():
 
     output = encoder(inputs, mask)
     assert output.size() == (3, 4, 5)
-
-
 
     # check if causal mask is generated correctly
     # prepare inputs for auto-regressive test. create inputs but with different content where seq_len > 1
