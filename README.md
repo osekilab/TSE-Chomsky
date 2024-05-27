@@ -22,6 +22,6 @@ MIT
 
 ## Citation
 
-"""
+```
 Taiga Someya, Ryo Yoshida, and Yohei Oseki. 2024. Targeted Syntactic Evaluation on the Chomsky Hierarchy. In Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024), pages 15595–15605, Torino, Italia. ELRA and ICCL.
-"""
+```
