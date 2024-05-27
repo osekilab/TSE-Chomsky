@@ -35,7 +35,7 @@ py_version = "py310"
 
 [tool.mypy]
 python_version="3.10"
-files = "smartgoal"
+files = "chomsky_neural"
 disallow_untyped_defs = true
 ignore_missing_imports = true
 no_implicit_optional = true

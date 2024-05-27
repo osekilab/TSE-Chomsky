@@ -9,7 +9,7 @@ This repository contains the code and data for the paper "Targeted Syntactic Eva
 ## Installation
 
 ```bash
-poe install
+poetry install
 ```
 
 ## Usage

@@ -4,12 +4,7 @@ import pytorch_lightning as pl
 import torch
 from chomsky_neural.data.instance import Pair, PairBatch, PairInstance
 from chomsky_neural.data.source import ChomskyPairDataSource
-from chomsky_neural.data.vocabulary import (
-    BOS_TOKEN,
-    EOS_TOKEN,
-    PAD_TOKEN,
-    Vocabulary,
-)
+from chomsky_neural.data.vocabulary import BOS_TOKEN, EOS_TOKEN, PAD_TOKEN, Vocabulary
 
 
 class ChomskyPairDataset(torch.utils.data.Dataset[PairInstance]):
@@ -42,7 +37,8 @@ class ChomskyPairDatamodule(pl.LightningDataModule):
         self.vocab = vocab or Vocabulary()
         self.prepare_data_per_node = True
 
-    def prepare_data(self) -> None: ...
+    def prepare_data(self) -> None:
+        ...
 
     def _setup_dataset(
         self, dataset: ChomskyPairDataset, data_source: ChomskyPairDataSource
@@ -67,7 +63,8 @@ class ChomskyPairDatamodule(pl.LightningDataModule):
             inputs_neg=inputs_neg,
         )
 
-    def setup(self, stage: str) -> None: ...
+    def setup(self, stage: str) -> None:
+        ...
 
     def build_dataloader_from_source(
         self,
